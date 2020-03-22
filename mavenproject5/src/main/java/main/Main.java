@@ -6,6 +6,7 @@
 package main;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,7 +25,7 @@ import thread.MyCallable;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        
+
         //run edende sira ile chapa verilir
         ExecutorService service = Executors.newSingleThreadExecutor();
         MyCallable[] arr = new MyCallable[3];
@@ -36,7 +37,11 @@ public class Main {
 //        arr[1]=new MyRunnable(2);
 //        arr[2]=new MyRunnable(3);
 //        service.invokeAll(arr.length);
-        service.invokeAny(Arrays.asList(arr));
+
+        List<Future<Object>> list = service.invokeAll(Arrays.asList(arr));
+        Future f = list.get(0);//burda deyir menim 0 ci elementimin
+        f.isDone();//bitibmi onu goster
+        service.shutdown();
         System.out.println("terminated");
 
     }
